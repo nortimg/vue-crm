@@ -3,26 +3,22 @@
     <div class="card-content">
       <span class="card-title">Домашняя бухгалтерия</span>
       <div class="input-field">
-        <input 
-          id="email" 
-          type="text" 
-          class="validate" 
+        <input
+          id="email"
+          type="text"
+          class="validate"
           v-model.trim="email"
           :class="{invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
         />
         <label for="email">Email</label>
-        <small 
+        <small
           class="helper-text invalid"
           v-if="($v.email.$dirty && !$v.email.required)"
-        >
-           Поле Email не должно быть пустым
-        </small>
-        <small 
+        >Поле Email не должно быть пустым</small>
+        <small
           class="helper-text invalid"
           v-else-if="($v.email.$dirty && !$v.email.email)"
-        >
-           Введите корректный Email
-        </small>
+        >Введите корректный Email</small>
       </div>
       <div class="input-field">
         <input
@@ -59,36 +55,43 @@
 </template>
 
 <script>
-import {email, required, minLength} from 'vuelidate/lib/validators'
-import messages from '@/utils/messages'
+import { email, required, minLength } from "vuelidate/lib/validators";
+import messages from "@/utils/messages";
 export default {
-  name: 'login', 
+  name: "login",
   data: () => ({
-    email: '', 
-    password: ''
-  }), 
+    email: "",
+    password: ""
+  }),
   validations: {
-    email: {email, required}, 
-    password: {required, minLength: minLength(6)}
-  }, 
+    email: { email, required },
+    password: { required, minLength: minLength(6) }
+  },
   mounted() {
     if (messages[this.$route.query.message]) {
-      this.$message(messages[this.$route.query.message])
+      this.$message(messages[this.$route.query.message]);
     }
-    this.$message('Test')
+    this.$message("Test");
   },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       if (this.$v.$invalid) {
-        this.$v.$touch()
-        return 
+        this.$v.$touch();
+        return;
       }
       const formData = {
-        email: this.email, 
+        email: this.email,
         password: this.password
+      };
+
+      try {
+        await this.$store.dispatch("login", formData);
+        this.$router.push("/");
+      } catch (e) {
+
       }
-      this.$router.push('/')
+
     }
   }
-}
+};
 </script>
