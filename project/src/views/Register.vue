@@ -38,13 +38,15 @@
         >Пароль не должен быть менее {{$v.password.$params.minLength.min}} символов. Сейчас их {{password.length}}</small>
       </div>
       <div class="input-field">
-        <input id="name" 
-        type="text" 
-        v-model.trim="name" 
-        :class="{invalid: $v.name.$dirty && !$v.name.required}"
-      />
+        <input
+          id="name"
+          type="text"
+          v-model.trim="name"
+          :class="{invalid: $v.name.$dirty && !$v.name.required}"
+        />
         <label for="name">Имя</label>
-        <small class="helper-text invalid" 
+        <small
+          class="helper-text invalid"
           v-if="$v.name.$dirty && !$v.name.required"
         >Введите Ваше имя</small>
       </div>
@@ -88,21 +90,23 @@ export default {
     agree: { checked: v => v }
   },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       }
       const formData = {
-        email: this.email, 
-        password: this.password, 
+        email: this.email,
+        password: this.password,
         name: this.name
-      }
+      };
 
-      console.log(formData)
-
-      this.$router.push('/')
-    }
+      try {
+        console.log('good')
+        await this.$store.dispatch("register", formData);
+        this.$router.push("/");
+      } catch (e) {}
+    } 
   }
 };
 </script>
