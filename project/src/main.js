@@ -20,7 +20,7 @@ Vue.filter('date', dateFilter)
 
 
 
-firebase.initializeApp({
+const firebaseConfig = {
   apiKey: "AIzaSyB8zWV9GFWsGbESMzieWp8hUlRlUIhra-I",
   authDomain: "vue-crm-8288f.firebaseapp.com",
   databaseURL: "https://vue-crm-8288f.firebaseio.com",
@@ -29,7 +29,9 @@ firebase.initializeApp({
   messagingSenderId: "166784343368",
   appId: "1:166784343368:web:5425d75de9f47edfe5677d",
   measurementId: "G-LJDC4GBWRB"
-})
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 let app; 
 
